@@ -1,3 +1,9 @@
 <Solution>
+  <Folder Name="/Çözüm Öğeleri/">
+    <File Path="README.md" />
+  </Folder>
   <Project Path="SoftwareArchitecture.Api/SoftwareArchitecture.Api.csproj" />
+  <Project Path="SoftwareArchitecture.Application/SoftwareArchitecture.Application.csproj" />
+  <Project Path="SoftwareArchitecture.Domain/SoftwareArchitecture.Domain.csproj" />
+  <Project Path="SoftwareArchitecture.Infrastructure/SoftwareArchitecture.Infrastructure.csproj" />
 </Solution>

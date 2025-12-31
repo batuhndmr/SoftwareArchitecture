@@ -1,16 +1,22 @@
 ﻿using SoftwareArchitecture.Domain.Entities;
 using SoftwareArchitecture.Domain.Interfaces;
-
-namespace SoftwareArchitecture.Infrastructure.Repositories;
+using SoftwareArchitecture.Infrastructure.Persistence;
 
 public class HealthStatusRepository : IHealthStatusRepository
 {
+    private readonly AppDbContext _context;
+
+    public HealthStatusRepository(AppDbContext context)
+    {
+        _context = context;
+    }
+
     public HealthStatus GetStatus()
     {
         return new HealthStatus
         {
             IsHealthy = true,
-            Message = "API + Architecture ayakta !!!"
+            Message = "DB + Clean Architecture ayakta 🚀"
         };
     }
 }

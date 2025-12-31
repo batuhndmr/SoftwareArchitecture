@@ -10,5 +10,6 @@ public class AppDbContext : DbContext
     {
     }
 
-    public DbSet<HealthStatus> HealthStatuses => Set<HealthStatus>();
+    public DbSet<User> Users => Set<User>();
+
 }

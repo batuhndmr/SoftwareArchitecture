@@ -1,38 +1,33 @@
+using Microsoft.EntityFrameworkCore;
 using SoftwareArchitecture.Application.Interfaces;
 using SoftwareArchitecture.Application.Services;
 using SoftwareArchitecture.Domain.Interfaces;
-using Microsoft.EntityFrameworkCore;
 using SoftwareArchitecture.Infrastructure.Persistence;
-
+using SoftwareArchitecture.Infrastructure.Repositories;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
 builder.Services.AddControllers();
 
+// SQLITE CONNECTION
 builder.Services.AddDbContext<AppDbContext>(options =>
-{
-    options.UseSqlite("Data Source=softwarearchitecture.db");
-});
+    options.UseSqlite("Data Source=software_architecture.db"));
 
+// DI
 builder.Services.AddScoped<IHealthService, HealthService>();
 builder.Services.AddScoped<IHealthStatusRepository, HealthStatusRepository>();
+builder.Services.AddScoped<IUserRepository, UserRepository>();
+builder.Services.AddScoped<IUserService, UserService>();
 
-// Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
 builder.Services.AddOpenApi();
 
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
     app.MapOpenApi();
 }
 
 app.UseHttpsRedirection();
-
-app.UseAuthorization();
-
 app.MapControllers();
-
 app.Run();

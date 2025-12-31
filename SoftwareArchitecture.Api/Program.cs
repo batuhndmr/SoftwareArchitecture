@@ -1,12 +1,16 @@
 using SoftwareArchitecture.Application.Interfaces;
-using SoftwareArchitecture.Infrastructure.Services;
+using SoftwareArchitecture.Application.Services;
+using SoftwareArchitecture.Domain.Interfaces;
+using SoftwareArchitecture.Infrastructure.Repositories;
+
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
-
 builder.Services.AddControllers();
 builder.Services.AddScoped<IHealthService, HealthService>();
+builder.Services.AddScoped<IHealthStatusRepository, HealthStatusRepository>();
+
 // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
 builder.Services.AddOpenApi();
 

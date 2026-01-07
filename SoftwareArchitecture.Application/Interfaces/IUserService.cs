@@ -1,11 +1,12 @@
-﻿using SoftwareArchitecture.Domain.Entities;
-
+﻿using System.Collections.Generic;
+using System.Threading.Tasks;
+using SoftwareArchitecture.Application.DTOs.Users;
 
 namespace SoftwareArchitecture.Application.Interfaces
 {
     public interface IUserService
     {
-        Task<List<User>> GetUsersAsync();
-        Task CreateAsync(string name);
+        Task<List<UserResponseDto>> GetUsersAsync();
+        Task<UserResponseDto> CreateAsync(UserCreateDto dto);
     }
 }

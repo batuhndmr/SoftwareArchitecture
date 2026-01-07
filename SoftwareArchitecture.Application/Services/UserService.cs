@@ -5,6 +5,7 @@ using SoftwareArchitecture.Application.DTOs.Users;
 using SoftwareArchitecture.Application.Interfaces;
 using SoftwareArchitecture.Domain.Entities;
 using SoftwareArchitecture.Domain.Interfaces;
+using SoftwareArchitecture.Application.Exceptions;
 
 namespace SoftwareArchitecture.Application.Services
 {

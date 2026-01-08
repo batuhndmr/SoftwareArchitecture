@@ -1,9 +1,10 @@
-﻿
-namespace SoftwareArchitecture.Domain.Entities
+﻿namespace SoftwareArchitecture.Domain.Entities
 {
-    public class User
+    public class User : BaseEntity
     {
-        public int Id { get; set; }
-        public string Name { get; set; } = String.Empty;
+        public string Name { get; set; } = string.Empty;
+
+        // Navigation
+        public ICollection<Order> Orders { get; set; } = new List<Order>();
     }
 }

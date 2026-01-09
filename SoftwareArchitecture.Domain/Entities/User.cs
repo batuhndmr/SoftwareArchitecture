@@ -1,4 +1,4 @@
-﻿namespace SoftwareArchitecture.Domain.Entities
+namespace SoftwareArchitecture.Domain.Entities
 {
     public class User : BaseEntity
     {

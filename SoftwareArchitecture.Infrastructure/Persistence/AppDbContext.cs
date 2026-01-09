@@ -1,4 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
 using SoftwareArchitecture.Domain.Entities;
 
 namespace SoftwareArchitecture.Infrastructure.Persistence
@@ -22,7 +22,7 @@ namespace SoftwareArchitecture.Infrastructure.Persistence
             // User -> Orders (1-N)
             modelBuilder.Entity<User>()
                 .HasMany(u => u.Orders)
-                .WithOne(o => o.User)
+                .WithOne()
                 .HasForeignKey(o => o.UserId)
                 .OnDelete(DeleteBehavior.Cascade);
 
@@ -36,16 +36,61 @@ namespace SoftwareArchitecture.Infrastructure.Persistence
             // Product -> OrderItems (1-N)
             modelBuilder.Entity<Product>()
                 .HasMany(p => p.OrderItems)
-                .WithOne(oi => oi.Product)
+                .WithOne()
                 .HasForeignKey(oi => oi.ProductId)
                 .OnDelete(DeleteBehavior.Restrict);
         }
         
         public override Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
         {
-            var entries = ChangeTracker.Entries<BaseEntity>();
+            // BaseEntity'den türeyen entity'ler için
+            var baseEntityEntries = ChangeTracker.Entries<BaseEntity>();
+            foreach (var entry in baseEntityEntries)
+            {
+                if (entry.State == EntityState.Added)
+                {
+                    entry.Entity.CreatedAt = DateTime.UtcNow;
+                    entry.Entity.UpdatedAt = DateTime.UtcNow;
+                }
+                else if (entry.State == EntityState.Modified)
+                {
+                    entry.Entity.UpdatedAt = DateTime.UtcNow;
+                }
+            }
 
-            foreach (var entry in entries)
+            // OrderItem için (BaseEntity'den türemiyor)
+            var orderItemEntries = ChangeTracker.Entries<OrderItem>();
+            foreach (var entry in orderItemEntries)
+            {
+                if (entry.State == EntityState.Added)
+                {
+                    entry.Entity.CreatedAt = DateTime.UtcNow;
+                    entry.Entity.UpdatedAt = DateTime.UtcNow;
+                }
+                else if (entry.State == EntityState.Modified)
+                {
+                    entry.Entity.UpdatedAt = DateTime.UtcNow;
+                }
+            }
+
+            // Product için (BaseEntity'den türemiyor)
+            var productEntries = ChangeTracker.Entries<Product>();
+            foreach (var entry in productEntries)
+            {
+                if (entry.State == EntityState.Added)
+                {
+                    entry.Entity.CreatedAt = DateTime.UtcNow;
+                    entry.Entity.UpdatedAt = DateTime.UtcNow;
+                }
+                else if (entry.State == EntityState.Modified)
+                {
+                    entry.Entity.UpdatedAt = DateTime.UtcNow;
+                }
+            }
+
+            // Order için (BaseEntity'den türemiyor)
+            var orderEntries = ChangeTracker.Entries<Order>();
+            foreach (var entry in orderEntries)
             {
                 if (entry.State == EntityState.Added)
                 {

@@ -31,6 +31,8 @@ namespace SoftwareArchitecture.Api.Middlewares
             }
             catch (Exception ex)
             {
+                Console.WriteLine(ex); 
+                
                 _logger.LogError(ex, "Unhandled exception");
                 await WriteErrorAsync(
                     context,

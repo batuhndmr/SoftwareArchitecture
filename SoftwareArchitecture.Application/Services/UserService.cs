@@ -1,11 +1,10 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using SoftwareArchitecture.Application.DTOs.Users;
 using SoftwareArchitecture.Application.Interfaces;
 using SoftwareArchitecture.Domain.Entities;
 using SoftwareArchitecture.Domain.Interfaces;
-using SoftwareArchitecture.Application.Exceptions;
 
 namespace SoftwareArchitecture.Application.Services
 {
@@ -29,6 +28,18 @@ namespace SoftwareArchitecture.Application.Services
             }).ToList();
         }
 
+        public async Task<UserResponseDto?> GetByIdAsync(int id)
+        {
+            var user = await _repository.GetByIdAsync(id);
+            if (user == null) return null;
+
+            return new UserResponseDto
+            {
+                Id = user.Id,
+                Name = user.Name
+            };
+        }
+
         public async Task<UserResponseDto> CreateAsync(UserCreateDto dto)
         {
             var user = new User
@@ -43,6 +54,30 @@ namespace SoftwareArchitecture.Application.Services
                 Id = user.Id,
                 Name = user.Name
             };
+        }
+
+        public async Task<UserResponseDto?> UpdateAsync(int id, UserUpdateDto dto)
+        {
+            var user = await _repository.GetByIdAsync(id);
+            if (user == null) return null;
+
+            user.Name = dto.Name;
+            await _repository.UpdateAsync(user);
+
+            return new UserResponseDto
+            {
+                Id = user.Id,
+                Name = user.Name
+            };
+        }
+
+        public async Task<bool> DeleteAsync(int id)
+        {
+            var user = await _repository.GetByIdAsync(id);
+            if (user == null) return false;
+
+            await _repository.DeleteAsync(user);
+            return true;
         }
     }
 }

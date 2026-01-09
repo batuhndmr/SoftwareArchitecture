@@ -1,5 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using SoftwareArchitecture.Application.Interfaces;
+using Microsoft.AspNetCore.Mvc;
+using SoftwareArchitecture.Api.Models;
 
 namespace SoftwareArchitecture.Api.Controllers;
 
@@ -7,17 +7,9 @@ namespace SoftwareArchitecture.Api.Controllers;
 [Route("api/[controller]")]
 public class HealthController : ControllerBase
 {
-    private readonly IHealthService _healthService;
-
-    public HealthController(IHealthService healthService)
-    {
-        _healthService = healthService;
-    }
-
     [HttpGet]
     public IActionResult Get()
     {
-        var result = _healthService.Check();
-        return Ok(result);
+        return Ok(ApiResponse<object>.Ok("API is running", "Health check successful"));
     }
 }

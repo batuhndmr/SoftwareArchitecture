@@ -1,11 +1,14 @@
-namespace SoftwareArchitecture.Domain.Entities
-{
-    public class Product : BaseEntity
-    {
-        public string Name { get; set; } = string.Empty;
-        public decimal Price { get; set; }
+using System.Collections.Generic;
 
-        // Navigation
-        public ICollection<OrderItem> OrderItems { get; set; } = new List<OrderItem>();
-    }
+namespace SoftwareArchitecture.Domain.Entities;
+
+public class Product
+{
+    public int Id { get; set; }
+    public string Name { get; set; } = null!;
+    public decimal Price { get; set; }
+    public DateTime CreatedAt { get; set; }
+    public DateTime UpdatedAt { get; set; }
+
+    public ICollection<OrderItem> OrderItems { get; set; } = new List<OrderItem>();
 }

@@ -10,5 +10,7 @@ public class Order
 
     public DateTime UpdatedAt { get; set; }
 
+    public bool IsDeleted { get; set; } = false; // Soft Delete
+
     public ICollection<OrderItem> OrderItems { get; set; } = new List<OrderItem>();
 }

@@ -15,10 +15,13 @@ public class ProductRepository : IProductRepository
     }
 
     public async Task<List<Product>> GetAllAsync()
-        => await _context.Products.ToListAsync();
+        => await _context.Products
+            .Where(p => !p.IsDeleted)
+            .ToListAsync();
 
     public async Task<Product?> GetByIdAsync(int id)
-        => await _context.Products.FindAsync(id);
+        => await _context.Products
+            .FirstOrDefaultAsync(p => p.Id == id && !p.IsDeleted);
 
     public async Task AddAsync(Product product)
     {
@@ -34,7 +37,9 @@ public class ProductRepository : IProductRepository
 
     public async Task DeleteAsync(Product product)
     {
-        _context.Products.Remove(product);
+        // Soft Delete - Fiziksel olarak silme
+        product.IsDeleted = true;
+        product.UpdatedAt = DateTime.UtcNow;
         await _context.SaveChangesAsync();
     }
 }

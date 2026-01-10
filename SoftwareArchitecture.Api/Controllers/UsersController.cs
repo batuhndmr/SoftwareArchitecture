@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using SoftwareArchitecture.Application.DTOs.Users;
 using SoftwareArchitecture.Application.Interfaces;
@@ -7,6 +8,7 @@ namespace SoftwareArchitecture.Api.Controllers;
 
 [ApiController]
 [Route("api/users")]
+[Authorize] // Tüm endpoint'ler yetkilendirilmiş
 public class UsersController : ControllerBase
 {
     private readonly IUserService _service;
@@ -41,6 +43,7 @@ public class UsersController : ControllerBase
     }
 
     [HttpPost]
+    [Authorize(Roles = "Admin")] // Sadece Admin kullanıcı oluşturabilir
     public async Task<IActionResult> Post([FromBody] UserCreateDto dto)
     {
         _logger.LogInformation("Creating new user: {UserName}", dto.Name);
@@ -53,6 +56,7 @@ public class UsersController : ControllerBase
     }
 
     [HttpPut("{id:int}")]
+    [Authorize(Roles = "Admin")] // Sadece Admin kullanıcı güncelleyebilir
     public async Task<IActionResult> Update(int id, [FromBody] UserUpdateDto dto)
     {
         _logger.LogInformation("Updating user with id: {UserId}", id);
@@ -67,6 +71,7 @@ public class UsersController : ControllerBase
     }
 
     [HttpDelete("{id:int}")]
+    [Authorize(Roles = "Admin")] // Sadece Admin kullanıcı silebilir
     public async Task<IActionResult> Delete(int id)
     {
         _logger.LogInformation("Deleting user with id: {UserId}", id);

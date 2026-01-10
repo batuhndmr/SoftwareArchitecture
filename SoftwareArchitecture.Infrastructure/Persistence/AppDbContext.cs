@@ -19,6 +19,23 @@ namespace SoftwareArchitecture.Infrastructure.Persistence
         {
             base.OnModelCreating(modelBuilder);
 
+            // User entity yapılandırması
+            modelBuilder.Entity<User>(entity =>
+            {
+                entity.Property(e => e.Username)
+                    .IsRequired()
+                    .HasMaxLength(100);
+                
+                entity.Property(e => e.PasswordHash)
+                    .IsRequired()
+                    .HasMaxLength(500);
+                
+                entity.Property(e => e.Role)
+                    .IsRequired()
+                    .HasMaxLength(50)
+                    .HasDefaultValue("User");
+            });
+
             // User -> Orders (1-N)
             modelBuilder.Entity<User>()
                 .HasMany(u => u.Orders)

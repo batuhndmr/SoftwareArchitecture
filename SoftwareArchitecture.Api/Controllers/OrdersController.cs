@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using SoftwareArchitecture.Application.DTOs.Orders;
 using SoftwareArchitecture.Application.Interfaces;
@@ -7,6 +8,7 @@ namespace SoftwareArchitecture.Api.Controllers;
 
 [ApiController]
 [Route("api/[controller]")]
+[Authorize] // Tüm endpoint'ler yetkilendirilmiş
 public class OrdersController : ControllerBase
 {
     private readonly IOrderService _orderService;

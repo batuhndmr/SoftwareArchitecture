@@ -17,6 +17,7 @@ public class OrderRepository : IOrderRepository
     public async Task<List<Order>> GetAllAsync()
     {
         return await _context.Orders
+            .Where(o => !o.IsDeleted)
             .Include(o => o.OrderItems)
             .ToListAsync();
     }
@@ -24,6 +25,7 @@ public class OrderRepository : IOrderRepository
     public async Task<Order?> GetByIdAsync(int id)
     {
         return await _context.Orders
+            .Where(o => !o.IsDeleted)
             .Include(o => o.OrderItems)
             .FirstOrDefaultAsync(o => o.Id == id);
     }
@@ -42,7 +44,9 @@ public class OrderRepository : IOrderRepository
 
     public async Task DeleteAsync(Order order)
     {
-        _context.Orders.Remove(order);
+        // Soft Delete - Fiziksel olarak silme
+        order.IsDeleted = true;
+        order.UpdatedAt = DateTime.UtcNow;
         await _context.SaveChangesAsync();
     }
 }

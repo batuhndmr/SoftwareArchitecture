@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using SoftwareArchitecture.Application.DTOs.Products;
 using SoftwareArchitecture.Application.Interfaces;
@@ -7,6 +8,7 @@ namespace SoftwareArchitecture.Api.Controllers;
 
 [ApiController]
 [Route("api/[controller]")]
+[Authorize] // Tüm endpoint'ler yetkilendirilmiş
 public class ProductsController : ControllerBase
 {
     private readonly IProductService _productService;
@@ -44,6 +46,7 @@ public class ProductsController : ControllerBase
 
     // POST api/products
     [HttpPost]
+    [Authorize(Roles = "Admin")] // Sadece Admin ürün oluşturabilir
     public async Task<IActionResult> Create([FromBody] CreateProductDto dto)
     {
         _logger.LogInformation("Creating new product: {ProductName}", dto.Name);
@@ -57,6 +60,7 @@ public class ProductsController : ControllerBase
 
     // PUT api/products/{id}
     [HttpPut("{id:int}")]
+    [Authorize(Roles = "Admin")] // Sadece Admin ürün güncelleyebilir
     public async Task<IActionResult> Update(int id, [FromBody] CreateProductDto dto)
     {
         _logger.LogInformation("Updating product with id: {ProductId}", id);
@@ -72,6 +76,7 @@ public class ProductsController : ControllerBase
 
     // DELETE api/products/{id}
     [HttpDelete("{id:int}")]
+    [Authorize(Roles = "Admin")] // Sadece Admin ürün silebilir
     public async Task<IActionResult> Delete(int id)
     {
         _logger.LogInformation("Deleting product with id: {ProductId}", id);

@@ -17,12 +17,21 @@ namespace SoftwareArchitecture.Infrastructure.Repositories
 
         public async Task<List<User>> GetAllAsync()
         {
-            return await _context.Users.ToListAsync();
+            return await _context.Users
+                .Where(u => !u.IsDeleted)
+                .ToListAsync();
         }
 
         public async Task<User?> GetByIdAsync(int id)
         {
-            return await _context.Users.FindAsync(id);
+            return await _context.Users
+                .FirstOrDefaultAsync(u => u.Id == id && !u.IsDeleted);
+        }
+
+        public async Task<User?> GetByUsernameAsync(string username)
+        {
+            return await _context.Users
+                .FirstOrDefaultAsync(u => u.Username == username && !u.IsDeleted);
         }
 
         public async Task AddAsync(User user)
@@ -39,7 +48,9 @@ namespace SoftwareArchitecture.Infrastructure.Repositories
 
         public async Task DeleteAsync(User user)
         {
-            _context.Users.Remove(user);
+            // Soft Delete - Fiziksel olarak silme
+            user.IsDeleted = true;
+            user.UpdatedAt = DateTime.UtcNow;
             await _context.SaveChangesAsync();
         }
     }

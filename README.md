@@ -310,4 +310,4 @@ API aşağıdaki HTTP status code'larını kullanır:
 
 ## 👨‍💻 Geliştirici
 
-Bu proje Software Architecture dersi için geliştirilmiştir.
+Bu proje Software Architecture dersi için Asım Batuhan Demir tarafından geliştirilmiştir.
